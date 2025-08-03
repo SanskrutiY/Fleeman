@@ -13,4 +13,5 @@ public class VehicleDTO {
     private LocalDate year;
     private String status;
     private int mileage;
+    private int rateId;
 }

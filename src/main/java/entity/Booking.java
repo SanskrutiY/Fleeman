@@ -3,7 +3,9 @@ package entity;
 import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Data
@@ -12,22 +14,12 @@ import java.util.List;
 public class Booking {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int book_id;
+    @Column(name = "booking_id")
+    private int bookingId;
 
-    @ManyToOne
-    @JoinColumn(name = "vehicle_id")
-    private Vehicle vehicle;
-
-    @ManyToOne
-    @JoinColumn(name = "cust_id")
-    private Customer customer;
-    
     // Below 2 variables are for Mapper class methods
-    @Column(name = "cust_id", insertable = false, updatable = false)
+    @Column(name = "cust_id", updatable = false)
     private int customerId;
-
-    @Column(name = "vehicle_id", insertable = false, updatable = false)
-    private int vehicleId;
 
     private LocalDate startDate;
     private LocalDate endDate;
@@ -38,12 +30,21 @@ public class Booking {
 //    @Column(length = 1)
 //    private String status = "U";
 
-    @OneToMany(mappedBy = "booking", cascade = CascadeType.ALL)
-    private List<AddOn> addOns;
+    @ManyToOne
+    @JoinColumn(name = "cust_id")
+    private Customer customer;
+    
+    @ManyToMany
+    @JoinTable(
+        name = "booking_addon",
+        joinColumns = @JoinColumn(name = "booking_id"),
+        inverseJoinColumns = @JoinColumn(name = "addon_id")
+    )
+    private Set<Addon> addons = new HashSet();
 
     // @OneToMany ?????????? acc to Harshal DB ER
-    @OneToOne(mappedBy = "booking", cascade = CascadeType.ALL)
-    private VehicleAssignment vehicleAssignment;
+    @OneToMany(mappedBy = "booking", cascade = CascadeType.ALL)
+    private List<VehicleAssignment> vehicleAssignments;
     
     // I think it should be OneToOne ?????????
 //    @OneToMany(mappedBy = "booking", cascade = CascadeType.ALL)

@@ -13,13 +13,14 @@ import lombok.*;
 public class FuelLogs {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int fuel_id;
+    @Column(name = "fuel_id")
+    private int fuelId;
 
-    @OneToOne
-    @JoinColumn(name = "assignment_id")
-    private VehicleAssignment assignment;
+//    @OneToOne
+//    @JoinColumn(name = "assignment_id")
+//    private VehicleAssignment assignment;
 
-    private BigDecimal fuelVolume;
     private LocalDate date;
+    private BigDecimal startVolume;
     private BigDecimal endVolume;
 }

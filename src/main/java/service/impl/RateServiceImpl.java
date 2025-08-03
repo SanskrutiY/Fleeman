@@ -33,13 +33,13 @@ public class RateServiceImpl implements RateService {
                 .orElse(null);
 	}
 
-	@Override
-	public List<RateDTO> getRatesByVehicleId(int vehicleId) {
-		return rateRepo.findByVehicleVehicleId(vehicleId)
-                .stream()
-                .map(Mapper::mapToRateDTO)
-                .collect(Collectors.toList());
-	}
+//	@Override
+//	public List<RateDTO> getRatesByVehicleId(int vehicleId) {
+//		return rateRepo.findByVehicleVehicleId(vehicleId)
+//                .stream()
+//                .map(Mapper::mapToRateDTO)
+//                .collect(Collectors.toList());
+//	}
 
 	@Override
 	public RateDTO createRate(RateDTO dto) {

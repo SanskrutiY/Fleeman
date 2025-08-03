@@ -13,6 +13,7 @@ public class Rate {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "rate_id")
     private int rateId;
 
 //    @Column(length = 20)
@@ -21,17 +22,23 @@ public class Rate {
     private int dailyRate;
     private int weeklyRate;
     private int monthlyRate;
-
-    @Column(length = 20)
-    private String season;
     
-    @ManyToOne
-    @JoinColumn(name = "vehicle_id")
-    private Vehicle vehicle;
+    
+    //rateId
+    //rate
+    // type - VEHICLE, ADDON
+    // entity_id - 10001, 10002 
 
-    private BigDecimal gpsNavigation;
-    private BigDecimal campingKit;
-    private BigDecimal childSeats;
+//    @Column(length = 20)
+//    private String season;
+    
+//    @ManyToOne
+//    @JoinColumn(name = "vehicle_id")
+//    private Vehicle vehicle;
+
+//    private BigDecimal gpsNavigation;
+//    private BigDecimal campingKit;
+//    private BigDecimal childSeats;
     
 }
 

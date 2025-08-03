@@ -1,5 +1,7 @@
 package mapper;
 
+import java.util.List;
+
 import dto.*;
 import entity.*;
 
@@ -25,6 +27,9 @@ public class Mapper {
         vehicle.setYear(dto.getYear());
         vehicle.setStatus(dto.getStatus());
         vehicle.setMileage(dto.getMileage());
+//        if (dto.getRateId() != null) {
+//        	vehicle.setRate(set from rateRepository if doing payment);
+//        }
         return vehicle;
     }
     
@@ -47,7 +52,7 @@ public class Mapper {
         try {
             customer.setPhoneNum(Long.parseLong(dto.getPhoneNum()));
         } catch (NumberFormatException e) {
-            customer.setPhoneNum(0L); 
+            customer.setPhoneNum(0L);
         }
         customer.setCity(dto.getCity());
         customer.setPassportNum(dto.getPassportNum());
@@ -57,12 +62,14 @@ public class Mapper {
     public static BookingDTO mapToBookingDTO(Booking booking) {
         if (booking == null) return null;
         BookingDTO dto = new BookingDTO();
-        dto.setBookingId(booking.getBook_id());
+        dto.setBookingId(booking.getBookingId());
         if (booking.getCustomer() != null) {
             dto.setCustomerId(booking.getCustomer().getCustId());
         }
-        if (booking.getVehicle() != null) {
-            dto.setVehicleId(booking.getVehicle().getVehicleId());
+        if (booking.getVehicleAssignments() != null) {
+            dto.setVehicleAssignments(
+            		booking.getVehicleAssignments().stream().map(obj -> mapToVehicleAssignmentDTO(obj)).toList()
+    		);
         }
         dto.setStartDate(booking.getStartDate());
         dto.setEndDate(booking.getEndDate());
@@ -74,13 +81,10 @@ public class Mapper {
     public static Booking mapToBookingEntity(BookingDTO dto) {
         if (dto == null) return null;
         Booking booking = new Booking();
-        booking.setBook_id(dto.getBookingId());
+        booking.setBookingId(dto.getBookingId());
         Customer customer = new Customer();
         customer.setCustId(dto.getCustomerId());
         booking.setCustomer(customer);
-        Vehicle vehicle = new Vehicle();
-        vehicle.setVehicleId(dto.getVehicleId());
-        booking.setVehicle(vehicle);
         booking.setStartDate(dto.getStartDate());
         booking.setEndDate(dto.getEndDate());
         booking.setPickupLocation(dto.getPickupLocation());
@@ -89,52 +93,49 @@ public class Mapper {
         return booking;
     }
     
-    public static VehicleAssignmentDTO toDTO(VehicleAssignment va) {
+    public static VehicleAssignmentDTO mapToVehicleAssignmentDTO(VehicleAssignment va) {
         if (va == null) return null;
         VehicleAssignmentDTO dto = new VehicleAssignmentDTO();
         dto.setAssignmentId(va.getAssignmentId());
         if (va.getVehicle() != null) {
-            dto.setVehicleId(va.getVehicle().getVehicleId());
+            dto.setVehicle(mapToVehicleDTO(va.getVehicle()));
         }
-        if (va.getCustomer() != null) {
-            dto.setCustomerId(va.getCustomer().getCustId());
-        }
-        if (va.getBooking() != null) {
-            dto.setBookingId(va.getBooking().getBook_id());
+        if (va.getFuelLog() != null) {
+            dto.setFuelLog(mapToFuelLogDTO(va.getFuelLog()));
         }
         dto.setLocalDl(va.getLocalDl());
         dto.setAssignDate(va.getAssignDate());
         dto.setReturnDate(va.getReturnDate());
         return dto;
     }
-    public static VehicleAssignment toEntity(VehicleAssignmentDTO dto) {
-        if (dto == null) return null;
-        VehicleAssignment va = new VehicleAssignment();
-        va.setAssignmentId(dto.getAssignmentId());
-        Vehicle vehicle = new Vehicle();
-        vehicle.setVehicleId(dto.getVehicleId());
-        va.setVehicle(vehicle);
-        Customer customer = new Customer();
-        customer.setCustId(dto.getCustomerId());
-        va.setCustomer(customer);
-        Booking booking = new Booking();
-        booking.setBook_id(dto.getBookingId());
-        va.setBooking(booking);
-        va.setLocalDl(dto.getLocalDl());
-        va.setAssignDate(dto.getAssignDate());
-        va.setReturnDate(dto.getReturnDate());
-        return va;
-    }
     
+    /** 
+     * Not needed
+     */
+//    public static VehicleAssignment mapToVehicleAssignmentEntity(VehicleAssignmentDTO dto) {
+//        if (dto == null) return null;
+//        VehicleAssignment va = new VehicleAssignment();
+//        va.setAssignmentId(dto.getAssignmentId());
+//        Vehicle vehicle = new Vehicle();
+//        vehicle.setVehicleId(dto.getVehicleId());
+//        va.setVehicle(vehicle);
+//        Customer customer = new Customer();
+//        customer.setCustId(dto.getCustomerId());
+//        va.setCustomer(customer);
+//        Booking booking = new Booking();
+//        booking.setBook_id(dto.getBookingId());
+//        va.setBooking(booking);
+//        va.setLocalDl(dto.getLocalDl());
+//        va.setAssignDate(dto.getAssignDate());
+//        va.setReturnDate(dto.getReturnDate());
+//        return va;
+//    }
     
     public static FuelLogDTO mapToFuelLogDTO(FuelLogs fuelLog) {
         if (fuelLog == null) return null;
         FuelLogDTO dto = new FuelLogDTO();
-        dto.setFuelId(fuelLog.getFuel_id());
-        if (fuelLog.getAssignment() != null) {
-            dto.setAssignmentId(fuelLog.getAssignment().getAssignmentId());
-        }
-        dto.setFuelVolume(fuelLog.getFuelVolume());
+        dto.setFuelId(fuelLog.getFuelId());
+        dto.setStartVolume(fuelLog.getStartVolume());
         dto.setDate(fuelLog.getDate());
         dto.setEndVolume(fuelLog.getEndVolume());
         return dto;
@@ -142,17 +143,12 @@ public class Mapper {
     public static FuelLogs mapToFuelLogEntity(FuelLogDTO dto) {
         if (dto == null) return null;
         FuelLogs fuelLog = new FuelLogs();
-        fuelLog.setFuel_id(dto.getFuelId());
-        VehicleAssignment assignment = new VehicleAssignment();
-        assignment.setAssignmentId(dto.getAssignmentId());
-        fuelLog.setAssignment(assignment);
-        fuelLog.setFuelVolume(dto.getFuelVolume());
+        fuelLog.setFuelId(dto.getFuelId());
+        fuelLog.setStartVolume(dto.getStartVolume());
         fuelLog.setDate(dto.getDate());
         fuelLog.setEndVolume(dto.getEndVolume());
         return fuelLog;
     }
-    
-    
     
     public static RateDTO mapToRateDTO(Rate rate) {
         if (rate == null) return null;
@@ -161,13 +157,6 @@ public class Mapper {
         dto.setDailyRate(rate.getDailyRate());
         dto.setWeeklyRate(rate.getWeeklyRate());
         dto.setMonthlyRate(rate.getMonthlyRate());
-        dto.setSeason(rate.getSeason());
-        if (rate.getVehicle() != null) {
-            dto.setVehicleId(rate.getVehicle().getVehicleId());
-        }
-        dto.setGpsNavigation(rate.getGpsNavigation());
-        dto.setCampingKit(rate.getCampingKit());
-        dto.setChildSeats(rate.getChildSeats());
         return dto;
     }
     public static Rate mapToRateEntity(RateDTO dto) {
@@ -177,17 +166,8 @@ public class Mapper {
         rate.setDailyRate(dto.getDailyRate());
         rate.setWeeklyRate(dto.getWeeklyRate());
         rate.setMonthlyRate(dto.getMonthlyRate());
-        rate.setSeason(dto.getSeason());
-        Vehicle vehicle = new Vehicle();
-        vehicle.setVehicleId(dto.getVehicleId());
-        rate.setVehicle(vehicle);
-        rate.setGpsNavigation(dto.getGpsNavigation());
-        rate.setCampingKit(dto.getCampingKit());
-        rate.setChildSeats(dto.getChildSeats());
         return rate;
     }
-    
-    
     
     public static LocationDTO mapToLocationDTO(Location location) {
         if (location == null) return null;
@@ -211,27 +191,24 @@ public class Mapper {
     }
 
 
-    
-    public static AddOnDTO mapToAddOnDTO(AddOn addOn) {
-        if (addOn == null) return null;
+    /**
+     * Returns addons associated with particular booking and not the addon type list
+     * @param addon
+     */
+    public static AddOnDTO mapToAddOnDTO(Addon addon) {
+        if (addon == null) return null;
         AddOnDTO dto = new AddOnDTO();
-        dto.setAddonId(addOn.getAddonId());
-        dto.setGpsNavigation(addOn.getGpsNavigation());
-        dto.setCampingKit(addOn.getCampingKit());
-        dto.setChildSeats(addOn.getChildSeats());
-        dto.setBookingId(addOn.getBooking() != null ? addOn.getBooking().getBook_id() : null);
+        dto.setAddonId(addon.getAddonId());
+        dto.setAddonType(addon.getAddonType());
+        
         return dto;
     }
-    public static AddOn mapToAddOnEntity(AddOnDTO dto) {
+    public static Addon mapToAddOnEntity(AddOnDTO dto) {
         if (dto == null) return null;
-        AddOn addOn = new AddOn();
-        addOn.setAddonId(dto.getAddonId());
-        addOn.setGpsNavigation(dto.getGpsNavigation());
-        addOn.setCampingKit(dto.getCampingKit());
-        addOn.setChildSeats(dto.getChildSeats());
-        // Do not set Booking here directly unless you fetch and assign externally in service
-        addOn.setBooking(null); // or handle this in the service class
-        return addOn;
+        Addon addon = new Addon();
+        addon.setAddonId(dto.getAddonId());
+        addon.setAddonType(dto.getAddonType());
+        return addon;
     }
     
     

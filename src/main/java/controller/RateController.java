@@ -26,11 +26,11 @@ public class RateController {
         return (dto != null) ? ResponseEntity.ok(dto) : ResponseEntity.notFound().build();
     }
 
-    @GetMapping("/vehicle/{vehicleId}")
-    public ResponseEntity<List<RateDTO>> getRatesByVehicleId(@PathVariable int vehicleId) {
-        List<RateDTO> list = rateService.getRatesByVehicleId(vehicleId);
-        return ResponseEntity.ok(list);
-    }
+//    @GetMapping("/vehicle/{vehicleId}")
+//    public ResponseEntity<List<RateDTO>> getRatesByVehicleId(@PathVariable int vehicleId) {
+//        List<RateDTO> list = rateService.getRatesByVehicleId(vehicleId);
+//        return ResponseEntity.ok(list);
+//    }
 
     @PostMapping
     public ResponseEntity<RateDTO> createRate(@RequestBody RateDTO dto) {

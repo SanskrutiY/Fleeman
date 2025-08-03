@@ -22,4 +22,12 @@ public class CustomerController {
 		List<CustomerDTO> custDto = customerService.getAllCustomers();
 		return ResponseEntity.ok(custDto);
 	}
+	
+	// Get customer by id
+	
+	// Create Customer
+	
+	// Update customer by id
+	
+	// Delete customer by id
 }

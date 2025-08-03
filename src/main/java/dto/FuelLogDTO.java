@@ -11,7 +11,7 @@ import java.time.LocalDate;
 public class FuelLogDTO {
     private int fuelId;
     private int assignmentId;
-    private BigDecimal fuelVolume;
+    private BigDecimal startVolume;
     private LocalDate date;
     private BigDecimal endVolume;
 }

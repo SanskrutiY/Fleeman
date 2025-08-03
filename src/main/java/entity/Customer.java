@@ -64,8 +64,8 @@ public class Customer {
  	@OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
  	public List<Booking> bookings;
 
-    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    public List<VehicleAssignment> vehicle_assignments;
+//    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+//    public List<VehicleAssignment> vehicle_assignments;
 
 //    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 //    public List<Payment> payments;

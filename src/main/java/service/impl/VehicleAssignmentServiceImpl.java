@@ -21,41 +21,46 @@ public class VehicleAssignmentServiceImpl implements VehicleAssignmentService {
     public List<VehicleAssignmentDTO> getAllAssignments() {
         return repository.findAll()
                 .stream()
-                .map(Mapper::toDTO)
+                .map(Mapper::mapToVehicleAssignmentDTO)
                 .collect(Collectors.toList());
     }
 
     @Override
     public VehicleAssignmentDTO getAssignmentById(int id) {
         return repository.findById(id)
-                .map(Mapper::toDTO)
+                .map(Mapper::mapToVehicleAssignmentDTO)
                 .orElse(null);
     }
 
-    @Override
-    public List<VehicleAssignmentDTO> getAssignmentsByCustomerId(int customerId) {
-        return repository.findByCustomer_CustId(customerId)
-                .stream()
-                .map(Mapper::toDTO)
-                .collect(Collectors.toList());
-    }
+    /**
+     * invalid
+     */
+//    @Override
+//    public List<VehicleAssignmentDTO> getAssignmentsByCustomerId(int customerId) {
+//        return repository.findByCustomer_CustId(customerId)
+//                .stream()
+//                .map(Mapper::toDTO)
+//                .collect(Collectors.toList());
+//    }
 
-    @Override
-    public VehicleAssignmentDTO createAssignment(VehicleAssignmentDTO dto) {
-        VehicleAssignment entity = Mapper.toEntity(dto);
-        VehicleAssignment saved = repository.save(entity);
-        return Mapper.toDTO(saved);
-    }
-
-    @Override
-    public VehicleAssignmentDTO updateAssignment(int id, VehicleAssignmentDTO dto) {
-        if (!repository.existsById(id)) return null;
-
-        VehicleAssignment entity = Mapper.toEntity(dto);
-        entity.setAssignmentId(id); // Ensure update
-        VehicleAssignment updated = repository.save(entity);
-        return Mapper.toDTO(updated);
-    }
+    
+    /**
+     * to do in different way later
+     */
+//    @Override
+//    public VehicleAssignmentDTO createAssignment(VehicleAssignmentDTO dto) {
+//        VehicleAssignment entity = Mapper.toEntity(dto);
+//        VehicleAssignment saved = repository.save(entity);
+//        return Mapper.toDTO(saved);
+//    }
+//    @Override
+//    public VehicleAssignmentDTO updateAssignment(int id, VehicleAssignmentDTO dto) {
+//        if (!repository.existsById(id)) return null;
+//        VehicleAssignment entity = Mapper.toEntity(dto);
+//        entity.setAssignmentId(id); // Ensure update
+//        VehicleAssignment updated = repository.save(entity);
+//        return Mapper.toDTO(updated);
+//    }
 
     @Override
     public void deleteAssignment(int id) {

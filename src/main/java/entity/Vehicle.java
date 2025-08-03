@@ -36,13 +36,18 @@ public class Vehicle {
     @Column(name = "car_image", nullable = false, unique = true)
     private String carImage;
 
-    @OneToMany(mappedBy = "vehicle")
-//    private Booking booking;
-    private List<Booking> bookings;
+//    @OneToMany(mappedBy = "vehicle")
+////    private Booking booking;
+//    private List<Booking> bookings;
 
-    @OneToMany(mappedBy = "vehicle")
-    private List<VehicleAssignment> assignments;
+//    @OneToOne
+//    @JoinColumn(name = "vehicle_id", referencedColumnName = "vehicle_id")
+//    private VehicleAssignment vehicleAssignment;
 
     @OneToMany(mappedBy = "vehicle")
     private List<Insurance> insurances;
+
+    @OneToOne
+    @JoinColumn(name = "rate_id", referencedColumnName = "rate_id")
+    private Rate rate;
 }

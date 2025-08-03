@@ -5,5 +5,5 @@ import java.util.*;
 import entity.VehicleAssignment;
 
 public interface VehicleAssignmentRepository extends JpaRepository<VehicleAssignment, Integer>{
-	 List<VehicleAssignment> findByCustomer_CustId(int custId);
+//	 List<VehicleAssignment> findByCustomer_CustId(int custId);
 }

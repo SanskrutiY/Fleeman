@@ -3,12 +3,15 @@ package dto;
 import lombok.*;
 import java.time.LocalDate;
 
+import entity.Vehicle;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class VehicleAssignmentDTO {
     private int assignmentId;
-    private int vehicleId;
+    private VehicleDTO vehicle;
+    private FuelLogDTO fuelLog;
     private int customerId;
     private int bookingId;
     private String localDl;

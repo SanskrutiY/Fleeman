@@ -30,21 +30,23 @@ public class FuelLogServiceImpl implements FuelLogService {
 	@Override
 	public FuelLogDTO getFuelLogByVehicleId(int vehicle_id) {
 		// for this I need VehicleAssignment always guaranteed to exist
-		 return fuelLogRepo.findAll().stream()
-	                .filter(log -> log.getAssignment() != null
-	                        && log.getAssignment().getVehicle() != null
-	                        && log.getAssignment().getVehicle().getVehicleId() == vehicle_id)
-	                .findFirst()
-	                .map(Mapper::mapToFuelLogDTO)
-	                .orElse(null);
+		return null;
+//		 return fuelLogRepo.findAll().stream()
+//	                .filter(log -> log.getAssignment() != null
+//	                        && log.getAssignment().getVehicle() != null
+//	                        && log.getAssignment().getVehicle().getVehicleId() == vehicle_id)
+//	                .findFirst()
+//	                .map(Mapper::mapToFuelLogDTO)
+//	                .orElse(null);
 	}
 
 	@Override
 	public List<FuelLogDTO> getFuelLogsByAssignmentId(int assignmentId) {
-		return fuelLogRepo.findByAssignmentAssignmentId(assignmentId)
-                .stream()
-                .map(Mapper::mapToFuelLogDTO)
-                .collect(Collectors.toList());
+		return null;
+//		return fuelLogRepo.findByAssignmentAssignmentId(assignmentId)
+//                .stream()
+//                .map(Mapper::mapToFuelLogDTO)
+//                .collect(Collectors.toList());
 	}
 
 	@Override
@@ -60,7 +62,7 @@ public class FuelLogServiceImpl implements FuelLogService {
             return null;
         }
         FuelLogs updatedEntity = Mapper.mapToFuelLogEntity(dto);
-        updatedEntity.setFuel_id(id);
+//        updatedEntity.setFuel_id(id);
         FuelLogs updated = fuelLogRepo.save(updatedEntity);
         return Mapper.mapToFuelLogDTO(updated);
 	}

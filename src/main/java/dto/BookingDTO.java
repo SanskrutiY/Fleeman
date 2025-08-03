@@ -1,6 +1,7 @@
 package dto;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import lombok.*;
 
@@ -10,7 +11,8 @@ import lombok.*;
 @AllArgsConstructor
 public class BookingDTO {
     private int bookingId;
-    private int vehicleId;
+    // dont pass assignments while booking create from Frontend
+    private List<VehicleAssignmentDTO> vehicleAssignments;
     private int customerId;
     private LocalDate startDate;
     private LocalDate endDate;

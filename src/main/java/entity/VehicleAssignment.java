@@ -18,23 +18,28 @@ public class VehicleAssignment {
     private LocalDate assignDate;
     private LocalDate returnDate;
 
-    @ManyToOne
-    @JoinColumn(name = "vehicle_id")
+//    @ManyToOne
+//    @JoinColumn(name = "vehicle_id")
+//    private Vehicle vehicle;
+
+    @OneToOne
+    @JoinColumn(name = "vehicle_id", referencedColumnName = "vehicle_id")
     private Vehicle vehicle;
 
-    @ManyToOne
-    @JoinColumn(name = "cust_id", nullable = false)
-    private Customer customer;
+//    @ManyToOne
+//    @JoinColumn(name = "cust_id", nullable = false)
+//    private Customer customer;
 
     
     // @ManyToOne  
     // ????????????????
-    @OneToOne
-    @JoinColumn(name = "book_id")
+    @ManyToOne
+    @JoinColumn(name = "booking_id")
     private Booking booking;
 
-    @OneToMany(mappedBy = "assignment")
-    private List<FuelLogs> fuelLogs;
+    @OneToOne
+    @JoinColumn(name = "fuel_id", referencedColumnName = "fuel_id")
+    private FuelLogs fuelLog;
 
 //    @OneToMany(mappedBy = "assignment")
 //    private List<Payment> payments;
